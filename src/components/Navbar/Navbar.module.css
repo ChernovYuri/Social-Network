@@ -1,0 +1,17 @@
+.nav {
+    grid-area: n;
+    background-color: springgreen;
+    padding: 20px;
+}
+
+.item a {
+    color: darkgreen;
+    text-decoration: none;
+}
+
+.item a:hover {
+    text-shadow: 1px 1px #000000;
+}
+.item a.active {
+    color: white;
+}

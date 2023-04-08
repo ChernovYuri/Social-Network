@@ -1,0 +1,19 @@
+.item {
+    color: greenyellow;
+    display: flex;
+    flex-direction: row;
+    background-color: darkgreen;
+    margin: 5px 0px 5px 0px;
+}
+.item img {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 50%;
+}
+.postMessage {
+    margin-left: 8px;
+}
+.likesItem {
+    flex-direction: column;
+}
+

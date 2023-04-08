@@ -1,0 +1,30 @@
+.messenger {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+
+.chats {
+    padding: 15px;
+}
+
+.chat {
+    color: white;
+    text-decoration: none;
+}
+
+.chat .active {
+    color: greenyellow;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+.chat a:hover {
+    text-shadow: 1px 1px 1px #000000;
+}
+
+.messages {
+    padding: 15px;
+}
+
+.messages .message {
+
+}

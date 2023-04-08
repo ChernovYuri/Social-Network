@@ -1,0 +1,18 @@
+.header {
+    grid-area: h;
+    background-color: darkgreen;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 30px;
+    color: white;
+}
+
+.header img {
+    width: 80px;
+}
+
+.header .companyLogo:hover  {
+    width: 2em;
+}
+
