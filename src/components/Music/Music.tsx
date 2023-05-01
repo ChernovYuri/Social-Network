@@ -7,8 +7,8 @@ type MusicPropsType = {
 
 export const Music = (props: MusicPropsType) => {
     return (
-        <div>
+        <h2>
             Music
-        </div>
+        </h2>
     );
 };

@@ -1,35 +1,29 @@
-import React, {ChangeEvent, ChangeEventHandler} from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {addPostAC, MyPostsProps, onChangeNewPostTextAC} from "../../../redux/state";
+import {addPostAC, onChangeNewPostTextAC} from "redux/profileReducer";
+import {ProfilePageType, store, useAppDispatch} from "redux/store";
 
+export type MyPostsProps = {
+    profilePage: ProfilePageType
+    // dispatch: (action: ProfileActionsType) => void
+    /*    /!*posts: PostType[]
+        ava: string
+        newPostText: string*!/
+
+        /!*addPost: () => void
+        onChangeCallback: (newText: string) => void*!/*/
+}
 
 export const MyPosts = (props: MyPostsProps) => {
+    debugger
+    const dispatch = useAppDispatch()
 
-    /*let newPostTextRef = useRef<HTMLTextAreaElement>(null)
-    const addNewPost = () => {
-        if (newPostTextRef.current !== null) {
-            props.addPost(newPostTextRef.current.value)
-            // newPostText.current.value = ''
-            console.log(state.profilePage.posts)
-        }
-    }*/
-    // два способа добавить ref
-    /* let newPostElement = useRef<HTMLTextAreaElement>(null)
-     let postMessageRef = React.createRef<HTMLTextAreaElement>()
-     */
-    /*const addPost = () => {
-        if (newPostElement.current !== null) {
-            let newPostText = newPostElement.current?.value
-            return (
-                alert(newPostText + postMessageRef.current?.value)
-            )}
-    }*/
     const addPost = () => {
-        props.dispatch(addPostAC())
+        dispatch(addPostAC())
     }
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(onChangeNewPostTextAC(e.currentTarget.value))
+        dispatch(onChangeNewPostTextAC(e.currentTarget.value))
     }
     return (
         <div className={s.postsBlock}>

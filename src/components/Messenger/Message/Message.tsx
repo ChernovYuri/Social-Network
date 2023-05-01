@@ -1,6 +1,6 @@
 import s from "../Messenger.module.css";
 import React from "react";
-import {MessagePropsType} from "../../../redux/state";
+import {MessagePropsType} from "redux/store";
 
 
 

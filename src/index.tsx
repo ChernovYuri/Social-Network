@@ -2,28 +2,32 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from "./reportWebVitals";
 import './index.css';
-import {RootStateType, store, StoreType} from "./redux/state";
 import {BrowserRouter} from "react-router-dom";
-import App from "./App";
+import {App} from "App";
+import {store} from "redux/store";
+import {Provider} from "react-redux";
 
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
-let rerenderApp = (store: StoreType) => {
+debugger
+let rerenderApp = () => {
     root.render(
-        <React.StrictMode>
+        // <React.StrictMode>
             <BrowserRouter>
-                <App store={store}/>
-                    {/*state={state}*/}
-                    {/* addPost={store.addPost.bind(store)}*/}
-                    {/* onChangeCallback={store.onChangeCallback.bind(store)}/>*/}
+                <Provider store={store}>
+                <App/>
+                </Provider>
             </BrowserRouter>
-        </React.StrictMode>
+        // </React.StrictMode>
     );
 }
-rerenderApp(store)
-store.subscribe(rerenderApp)
+
+rerenderApp()
+store.subscribe(()=>{
+    rerenderApp()
+})
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

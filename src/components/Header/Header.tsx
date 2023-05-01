@@ -1,7 +1,5 @@
 import React from 'react';
 import s from './Header.module.css'
-import {HeaderType} from "../../redux/state";
-
 
 export const Header: React.FC<HeaderType> = (props) => {
     return (
@@ -10,3 +8,7 @@ export const Header: React.FC<HeaderType> = (props) => {
         </header>
     );
 };
+
+export type HeaderType = {
+    title: string
+}

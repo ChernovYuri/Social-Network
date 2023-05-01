@@ -7,8 +7,8 @@ type NewsPropsType = {
 
 export const News = (props: NewsPropsType) => {
     return (
-        <div>
+        <h2>
             News
-        </div>
+        </h2>
     );
 };

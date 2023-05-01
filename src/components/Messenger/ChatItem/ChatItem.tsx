@@ -1,7 +1,7 @@
 import s from "../Messenger.module.css";
 import {NavLink} from "react-router-dom";
 import React from "react";
-import {UserType} from "../../../redux/state";
+import {UserType} from "redux/store";
 
 
 export const ChatItem = (props: UserType) => {

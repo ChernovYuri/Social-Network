@@ -7,8 +7,8 @@ type SettingsPropsType = {
 
 export const Settings = (props: SettingsPropsType) => {
     return (
-        <div>
+        <h2>
             Settings
-        </div>
+        </h2>
     );
 };

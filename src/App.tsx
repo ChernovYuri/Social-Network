@@ -1,23 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import {Header} from "./components/Header/Header";
-import {Navbar} from "./components/Navbar/Navbar";
-import {Profile} from "./components/Profile/Profile";
-import {Messenger} from "./components/Messenger/Messenger";
+import {Header} from "components/Header/Header";
+import {Navbar} from "components/Navbar/Navbar";
+import {Profile} from "components/Profile/Profile";
+import {Messenger} from "components/Messenger/Messenger";
 import {Route, Routes} from 'react-router-dom';
-import {News} from "./components/News/News";
-import {Music} from "./components/Music/Music";
-import {Settings} from "./components/Settings/Settings";
-import {RootStateType, store, StoreType} from "./redux/state";
+import {News} from "components/News/News";
+import {Music} from "components/Music/Music";
+import {Settings} from "components/Settings/Settings";
+import {AppRootStateType, store} from "redux/store";
+import {Users} from "components/Users/Users";
 
 type PropsType = {
-    store: StoreType
+    store: AppRootStateType
     /*    state: RootStateType
     addPost: () => void
     onChangeCallback: (newText: string) => void*/
 }
 
-const App: React.FC<PropsType> = (props) => {
+export const App = () => {
+    const profile = store.getState().profile
+    const messenger = store.getState().messenger
+    const users = store.getState().users
     return (
         <div className='appWrapper'>
             <Header title={'SOCIAL WEB'}/>
@@ -29,15 +33,16 @@ const App: React.FC<PropsType> = (props) => {
                                              onChangeCallback={props.onChangeCallback}
                                              addPost={props.addPost}/>}/>*/}
                     <Route path="/profile"
-                           element={<Profile profilePage={props.store.getState().profilePage}
-                                             dispatch={props.store.dispatch.bind(store)}/>}/>
+                           element={<Profile profilePage={profile}/>}/>
                     <Route path="/messenger/*"
-                           element={<Messenger messengerPage={props.store.getState().messengerPage}
-                                               dispatch={props.store.dispatch.bind(store)}/>}/>
+                           element={<Messenger messengerPage={messenger}
+                           />}/>
                     <Route path="/news"
                            element={<News/>}/>
                     <Route path="/music"
                            element={<Music/>}/>
+                    <Route path="/Users"
+                           element={<Users usersPage={users}/>}/>
                     <Route path="/settings"
                            element={<Settings/>}/>
                 </Routes>
@@ -45,4 +50,3 @@ const App: React.FC<PropsType> = (props) => {
         </div>
     );
 }
-export default App;
