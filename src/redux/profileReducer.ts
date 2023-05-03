@@ -1,10 +1,11 @@
 import {PostType, ProfilePageType} from "redux/store";
+import avatar from '.././assets/avatars/avatar.svg'
 
 let initialState = {
         profileInfo: [
             {
                 profileWallpaper: 'https://cdn.wallpaperjam.com/c2b45a1d3e2100ab203b8f03ba3c50a247d48035/landscapes-roads-multiscreen.jpg',
-                ava: 'https://ionicframework.com/docs/img/demos/avatar.svg',
+                ava: avatar,
             }
         ],
         newPostText: '',

@@ -1,56 +1,50 @@
 let initialState = {
-    users: [
-        {
-            id: 1,
-            followed: true,
-            name: 'Dimych',
-            userPic: 'https://ionicframework.com/docs/img/demos/avatar.svg',
-            description: 'Yo',
-            location: {country: 'Georgia', city: 'Batumi'}
-        },
-        {
-            id: 2,
-            followed: true,
-            name: 'Gulnaz',
-            userPic: 'https://ionicframework.com/docs/img/demos/avatar.svg',
-            description: 'Thinking..',
-            location: {country: 'Russia', city: 'Kazan'}
-        },
-        {
-            id: 3,
-            followed: true,
-            name: 'Asya',
-            userPic: 'https://ionicframework.com/docs/img/demos/avatar.svg',
-            description: '<3',
-            location: {country: 'Russia', city: 'Saint-Petersburg'}
-        },
-        {
-            id: 4,
-            followed: false,
-            name: 'Leha',
-            userPic: 'https://ionicframework.com/docs/img/demos/avatar.svg',
-            description: 'Everybody, hi!',
-            location: {country: 'Belarus', city: 'Mogilev'}
-        },
-        {
-            id: 5,
-            followed: false,
-            name: 'Alexandr',
-            userPic: 'https://ionicframework.com/docs/img/demos/avatar.svg',
-            description: 'My life, my rules',
-            location: {country: 'Ukraine', city: 'Lviv'}
-        },
-    ]
+    items: [] as UserType[],
+    totalCount: 0,
+    error: null,
+    pageSize: 20,
+    currentPage: 100
+}
+
+export type UsersType = {
+    items: UserType[]
+    totalCount: number
+    error: string | null
+}
+export type UsersDomainType = UsersType & {
+    pageSize: number
+    currentPage: number
+}
+
+export type UserType = {
+    name: string
+    id: number
+    photos: {
+        small: string | null
+        large: string | null
+    }
+    status: null
+    followed: boolean
 }
 
 export type UsersPageType = typeof initialState
 
-export const usersReducer = (state: UsersPageType = initialState, action: UsersActionsType) => {
+export const usersReducer = (state: UsersDomainType = initialState, action: UsersActionsType) => {
     switch (action.type) {
         case 'FOLLOW/UNFOLLOW': {
             return {
                 ...state,
-                users: state.users.map(u => u.id === action.userId ? {...u, followed: !action.isFollowed} : u)
+                users: state.items.map(u => u.id === action.userId ? {...u, followed: !action.isFollowed} : u)
+            }
+        }
+        case 'SET-USERS': {
+            return {
+                ...state, ...action.state
+            }
+        }
+        case 'SET-PAGE': {
+            return {
+                ...state, currentPage: action.page
             }
         }
         default: {
@@ -60,7 +54,6 @@ export const usersReducer = (state: UsersPageType = initialState, action: UsersA
 }
 
 
-
 type followUserACType = ReturnType<typeof followUserAC>
 export const followUserAC = (userId: number, isFollowed: boolean) => {
     return {
@@ -68,7 +61,21 @@ export const followUserAC = (userId: number, isFollowed: boolean) => {
         userId, isFollowed
     } as const
 }
+type setUsersACType = ReturnType<typeof setUsersAC>
+export const setUsersAC = (state: UsersType) => {
+    return {
+        type: 'SET-USERS',
+        state
+    } as const
+}
+type setPageACType = ReturnType<typeof setPageAC>
+export const setPageAC = (page: number) => {
+    return {
+        type: 'SET-PAGE',
+        page
+    } as const
+}
 
 
-export type UsersActionsType = followUserACType
+export type UsersActionsType = followUserACType | setUsersACType | setPageACType
 
