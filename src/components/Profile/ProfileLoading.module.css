@@ -1,0 +1,12 @@
+.profileInfoLoading{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: 30px 0 0 50px;
+}
+
+.userNameLoading{
+    display: flex;
+    align-items: flex-end;
+    margin-left: 10px;
+}

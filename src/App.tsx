@@ -13,9 +13,6 @@ import {Users} from "components/Users/Users";
 
 type PropsType = {
     store: AppRootStateType
-    /*    state: RootStateType
-    addPost: () => void
-    onChangeCallback: (newText: string) => void*/
 }
 
 export const App = () => {
@@ -28,12 +25,8 @@ export const App = () => {
             <Navbar/>
             <div className={'appWrapperContent'}>
                 <Routes>
-                    {/*<Route path="/"
-                           element={<Profile profilePage={props.state.profilePage}
-                                             onChangeCallback={props.onChangeCallback}
-                                             addPost={props.addPost}/>}/>*/}
-                    <Route path="/profile"
-                           element={<Profile profilePage={profile}/>}/>
+                    <Route path="/profile/:userId"
+                           element={<Profile/>}/>
                     <Route path="/messenger/*"
                            element={<Messenger messengerPage={messenger}
                            />}/>

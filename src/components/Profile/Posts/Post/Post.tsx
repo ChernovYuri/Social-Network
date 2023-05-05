@@ -1,22 +1,23 @@
 import React from 'react';
 import s from './Post.module.css'
+import avatar from "assets/avatars/avatar.svg"
 
 type PostPropsType = {
-    id: number
     message: string
     likesCount: number
-    ava: string
+    ava: string | null
 }
 
 export const Post = (props: PostPropsType) => {
     return (
-            <div className={s.item}>
-                <img src={props.ava} alt={"Author's avatar"}/>
+        <div className={s.item}>
+            <img src={props.ava ? props.ava : avatar} alt={"Author's avatar"}/>
+            <div className={s.messageAndLikes}>
                 <span className={s.postMessage}>{props.message}</span>
-                <b/>
                 <div className={s.likesItem}>
                     <span>Like</span><span> {props.likesCount}</span>
                 </div>
             </div>
+        </div>
     );
 };

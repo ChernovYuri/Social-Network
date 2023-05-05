@@ -1,19 +1,19 @@
 import React from 'react';
 import s from "./ProfileInfo.module.css";
-import {ProfileInfoType} from "redux/store";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "redux/store";
+import avatar from "../../.././assets/avatars/avatar.svg"
 
-export type ProfileInfoProps = {
-    profileInfo: ProfileInfoType[]
-}
+export const ProfileInfo = () => {
+    const profile = useSelector((store: AppRootStateType) => store.profile)
 
-export const ProfileInfo = (props: ProfileInfoProps) => {
-    debugger
     return (
         <div>
-            <img className={s.profileWallpaper} src={props.profileInfo[0].profileWallpaper} alt={"Profile's wallpaper"}/>
+            <img className={s.profileWallpaper} src={profile.profileWallpaper} alt={"Profile's wallpaper"}/>
             <div className={s.descriptionBlock}>
-                <img className={s.avaImg} src={props.profileInfo[0].ava} alt={"Profile's avatar"}/> Name Surname
+                <img className={s.avaImg} src={profile.photos.small ? profile.photos.small : avatar} alt={"Profile's avatar"}/>
+                <span className={s.userName}>{profile.fullName}</span>
             </div>
         </div>
-    );
-};
+    )
+}

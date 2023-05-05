@@ -3,11 +3,7 @@
     flex-direction: column;
     align-items: center;
     margin: 10px 0 10px 0;
-}
-
-.userPic {
-    width: 80px;
-    border-radius: 5%;
+    box-sizing: border-box;
 }
 
 .userContainer {
@@ -15,6 +11,7 @@
     justify-content: space-between;
     /*border: 1px solid #232323;*/
     width: 80%;
+    min-width: 20%;
 }
 
 .picAndFollow {
@@ -23,12 +20,16 @@
     justify-content: space-around;
 
     /*border: 1px solid #232323;*/
-    height: 150px;
+    height: 120px;
     width: 10%;
 }
 
+.userPic {
+    width: 80px;
+    border-radius: 10%;
+}
 .description {
-    border: 1px solid #232323;
+    /*border: 1px solid #232323;*/
     border-radius: 1%;
     width: 90%;
     margin: 10px 0 0 10px;
@@ -36,4 +37,19 @@
 
 .userName{
     margin-bottom: 10px;
+    font-size: 24px;
+}
+.userStatus{
+    font-size: 18px;
+}
+
+/*LOADING*/
+.paginationLoading{
+    width: 280px;
+    height: 25px;
+    margin-bottom: 10px;
+}
+.userLoading{
+    width: 800px;
+    margin: 10px 0 0 0;
 }
