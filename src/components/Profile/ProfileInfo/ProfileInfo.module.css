@@ -1,15 +1,43 @@
 .profileWallpaper {
     width: 100%;
 }
+.userAndJobInfo{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
 .descriptionBlock {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     padding: 10px;
 }
+
+.userInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.userJobInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .avaImg {
+
     width: 80px;
+    height: 80px;
     border-radius: 5%;
 }
 
 .userName {
     margin-left: 10px;
     font-size: 40px;
+}
+.userAboutMe {
+    margin-left: 10px;
+    font-size: 24px;
 }

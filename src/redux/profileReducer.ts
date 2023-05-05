@@ -1,5 +1,6 @@
 const initialState = {
-    userId: 0,
+    userId: 2,
+    aboutMe: '',
     lookingForAJob: false,
     lookingForAJobDescription: '',
     fullName: '',
@@ -120,6 +121,7 @@ type ContactsType = {
 
 type ProfileType = {
     userId: number
+    aboutMe: string
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string

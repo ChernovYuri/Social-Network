@@ -4,12 +4,14 @@ import {sidebarReducer} from "redux/sidebarReducer";
 import {combineReducers, legacy_createStore} from "redux";
 import {useDispatch} from "react-redux";
 import {usersReducer} from "redux/usersReducer";
+import {authReducer} from "redux/authReducer";
 
 export const rootReducer = combineReducers({
     profile: profileReducer,
     messenger: messengerReducer,
     users: usersReducer,
-    sidebar: sidebarReducer
+    sidebar: sidebarReducer,
+    auth: authReducer
 })
 
 export const store = legacy_createStore(rootReducer)

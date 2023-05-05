@@ -9,10 +9,16 @@ const initialState = {
 
 export const usersReducer = (state: UsersDomainType = initialState, action: UsersActionsType) => {
     switch (action.type) {
-        case 'FOLLOW/UNFOLLOW': {
+        case 'FOLLOW': {
             return {
                 ...state,
-                users: state.items.map(u => u.id === action.userId ? {...u, followed: !action.isFollowed} : u)
+                items: state.items.map(u => u.id === action.userId ? {...u, followed: true} : u)
+            }
+        }
+        case 'UNFOLLOW': {
+            return {
+                ...state,
+                items: state.items.map(u => u.id === action.userId ? {...u, followed: false} : u)
             }
         }
         case 'SET-USERS': {
@@ -32,10 +38,17 @@ export const usersReducer = (state: UsersDomainType = initialState, action: User
 
 
 type followUserACType = ReturnType<typeof followUserAC>
-export const followUserAC = (userId: number, isFollowed: boolean) => {
+export const followUserAC = (userId: number) => {
     return {
-        type: 'FOLLOW/UNFOLLOW',
-        userId, isFollowed
+        type: 'FOLLOW',
+        userId
+    } as const
+}
+type unfollowUserACType = ReturnType<typeof unfollowUserAC>
+export const unfollowUserAC = (userId: number) => {
+    return {
+        type: 'UNFOLLOW',
+        userId
     } as const
 }
 type setUsersACType = ReturnType<typeof setUsersAC>
@@ -63,6 +76,7 @@ export const setLoadingAC = (isLoading: boolean) => {
 
 export type UsersActionsType =
     | followUserACType
+    | unfollowUserACType
     | setUsersACType
     | setPageACType
     | setLoadingACType

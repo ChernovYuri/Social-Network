@@ -3,7 +3,8 @@
     background-color: darkgreen;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
     font-size: 30px;
     color: white;
 }
@@ -12,7 +13,8 @@
     width: 80px;
 }
 
-.header .companyLogo:hover  {
-    width: 2em;
+.loginBlock{
+    margin-right: 16px;
+    font-size: 22px;
+    cursor: pointer;
 }
-

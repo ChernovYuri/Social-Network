@@ -4,9 +4,9 @@ import {MyPosts} from "./Posts/MyPosts";
 import {AppRootStateType, useAppDispatch} from "redux/store";
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import axios from "axios";
 import {setLoadingAC, setProfileAC} from "redux/profileReducer";
 import {ProfileLoading} from "components/Profile/ProfileLoading";
+import {profileAPI} from "api/api";
 
 export const Profile = () => {
 
@@ -15,8 +15,9 @@ export const Profile = () => {
     const isLoading = useSelector((store:AppRootStateType)=>store.profile.isLoading)
 
     useEffect(() => {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`).then(res => {
+        profileAPI.getProfile(userId ? Number(userId) : 2).then(res => {
             dispatch(setProfileAC(res.data))
+            console.log(res.data)
         }).then(()=>{
             dispatch(setLoadingAC(false))
         })
