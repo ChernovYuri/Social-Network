@@ -1,3 +1,6 @@
+import {AppThunkDispatch} from "redux/store";
+import {profileAPI} from "api/api";
+
 const initialState = {
     userId: 2,
     aboutMe: '',
@@ -23,7 +26,8 @@ const initialState = {
             likesCount: 5
         }
     ],
-    isLoading: true
+    isLoading: true,
+    status: ''
 }
 
 export const profileReducer = (state: ProfileDomainType = initialState, action: ProfileActionsType) => {
@@ -49,6 +53,9 @@ export const profileReducer = (state: ProfileDomainType = initialState, action: 
         case 'SET-PROFILE': {
             return {...state, ...action.profile}
         }
+        case 'SET-STATUS': {
+            return {...state, status: action.status}
+        }
         case 'SET-LOADING': {
             return {...state, isLoading: action.isLoading}
         }
@@ -57,6 +64,45 @@ export const profileReducer = (state: ProfileDomainType = initialState, action: 
         }
     }
 }
+
+// thunks
+
+export const getUserProfile = (userId: number) => (dispatch: AppThunkDispatch) => {
+    dispatch(setLoadingAC(true))
+    profileAPI.getProfile(userId ? Number(userId) : 2).then(res => {
+        dispatch(setProfileAC(res.data))
+    }).then(() => {
+        dispatch(setLoadingAC(false))
+    }).catch((err) => {
+        alert(err.data.messages[0] ? err.data.messages[0] : 'Sorry, error occurred')
+    })
+}
+
+export const getStatus = (userId: number) => (dispatch: AppThunkDispatch) => {
+    dispatch(setLoadingAC(true))
+    profileAPI.getStatus(userId ? userId : 0)
+        .then(res => {
+            console.log(res)
+            dispatch(setStatusAC(res.data))
+            dispatch(setLoadingAC(false))
+        }).catch((err) => {
+        alert(err.data.messages[0] ? err.data.messages[0] : 'Sorry, error occurred')
+        dispatch(setLoadingAC(false))
+    })
+}
+
+export const updateStatus = (status: string) => (dispatch: AppThunkDispatch) => {
+    profileAPI.updateStatus(status).then(res => {
+        if (res.data.resultCode === 0) {
+            console.log(res)
+            dispatch(setStatusAC(status))
+            console.log(res.data)
+        }
+    }).catch((err) => {
+        alert(err.data.messages[0] ? err.data.messages[0] : 'Sorry, error occurred')
+    })
+}
+
 
 type onChangeNewPostTextACType = ReturnType<typeof onChangeNewPostTextAC>
 export const onChangeNewPostTextAC = (newPostText: string) => {
@@ -81,6 +127,14 @@ export const setProfileAC = (profile: ProfileType) => {
     } as const
 }
 
+type setStatusACType = ReturnType<typeof setStatusAC>
+export const setStatusAC = (status: string) => {
+    return {
+        type: 'SET-STATUS',
+        status
+    } as const
+}
+
 type setLoadingACType = ReturnType<typeof setLoadingAC>
 export const setLoadingAC = (isLoading: boolean) => {
     return {
@@ -94,12 +148,13 @@ export type ProfileActionsType =
     | addPostACType
     | setProfileACType
     | setLoadingACType
+    | setStatusACType
 
-//profile
 export type ProfileDomainType = ProfileType & {
     profileWallpaper: string
     newPostText: string
     posts: PostType[]
+    status: string
 }
 
 export type PostType = {

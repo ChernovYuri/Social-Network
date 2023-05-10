@@ -19,5 +19,33 @@ export const usersAPI = {
 export const profileAPI = {
     getProfile(userId: number) {
         return instance.get(`profile/${userId}`)
+    },
+    getStatus(userId: number) {
+        return instance.get(`profile/status/${userId}`)
+    },
+    updateStatus(status: string) {
+        return instance.put(`profile/status`, {status})
     }
+
+}
+export const authAPI = {
+    authMe() {
+        return instance.get(`auth/me`)
+    },
+    login(data: LoginParamsType) {
+        return instance.post(`auth/login`, data)
+    }
+}
+
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+
+export type BackEndResponseType<T = {}> = {
+    data: T
+    messages: string[]
+    resultCode: number
 }

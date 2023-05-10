@@ -1,10 +1,11 @@
 import {profileReducer} from "redux/profileReducer";
 import {messengerReducer} from "redux/messengerReducer";
 import {sidebarReducer} from "redux/sidebarReducer";
-import {combineReducers, legacy_createStore} from "redux";
+import {AnyAction, combineReducers, legacy_createStore} from "redux";
 import {useDispatch} from "react-redux";
 import {usersReducer} from "redux/usersReducer";
 import {authReducer} from "redux/authReducer";
+import {ThunkDispatch} from "redux-thunk";
 
 export const rootReducer = combineReducers({
     profile: profileReducer,
@@ -18,7 +19,8 @@ export const store = legacy_createStore(rootReducer)
 // window.store = store
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
-export const useAppDispatch = () => useDispatch()
+export type AppThunkDispatch = ThunkDispatch<AppRootStateType, unknown, AnyAction>
+export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
 
 // TYPES:
 // header

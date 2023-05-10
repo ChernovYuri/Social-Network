@@ -7,6 +7,7 @@
 
 .userNameLoading{
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     margin-left: 10px;
+    margin-bottom: 50px;
 }

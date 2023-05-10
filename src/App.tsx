@@ -7,13 +7,9 @@ import {Messenger} from "components/Messenger/Messenger";
 import {Route, Routes} from 'react-router-dom';
 import {AppRootStateType, store} from "redux/store";
 import {Users} from "components/Users/Users";
-
-type PropsType = {
-    store: AppRootStateType
-}
+import {Login} from "components/Login/Login";
 
 export const App = () => {
-    const messenger = store.getState().messenger
     return (
         <div className='appWrapper'>
             <Header/>
@@ -23,10 +19,11 @@ export const App = () => {
                     <Route path="/profile/:userId"
                            element={<Profile/>}/>
                     <Route path="/messenger/*"
-                           element={<Messenger messengerPage={messenger}
-                           />}/>
-                    <Route path="/Users"
+                           element={<Messenger/>}/>
+                    <Route path="/users"
                            element={<Users/>}/>
+                    <Route path="/login"
+                           element={<Login/>}/>
                 </Routes>
             </div>
         </div>

@@ -1,13 +1,10 @@
 import React, {useEffect} from 'react';
 import s from './Header.module.css'
-import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import {AppRootStateType, useAppDispatch} from "redux/store";
-import {setAuthDataAC, setIsAuthAC} from "redux/authReducer";
+import {authMe} from "redux/authReducer";
 import {useSelector} from "react-redux";
 
 export const Header: React.FC = () => {
-    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const auth = useSelector((store: AppRootStateType) => store.auth)
 
@@ -16,21 +13,8 @@ export const Header: React.FC = () => {
     },[])
 
     const loginHandler = () => {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`,{
-            withCredentials: true
-        }).then(res => {
-            dispatch(setAuthDataAC(res.data.data))
-            return res.data
-        }).then((data)=>{
-            if (data.resultCode === 0) {
-                dispatch(setIsAuthAC(true))
-            } else{
-                console.log(data)
-                alert(data.messages[0])
-            }
-        })
+        authMe()(dispatch)
     }
-    console.log(auth)
     return (
         <header className={s.header}>
             <img className={s.companyLogo}
@@ -39,14 +23,9 @@ export const Header: React.FC = () => {
             <span>SOCIAL WEB</span>
             <div className={s.loginBlock}>
                 <span className={s.login} onClick={() => {
-                    // navigate('/login')
                     loginHandler()
                 }}>{auth.isAuth ? auth.login : 'Log in'}</span>
             </div>
         </header>
-    );
-};
-
-export type HeaderType = {
-    title: string
+    )
 }
