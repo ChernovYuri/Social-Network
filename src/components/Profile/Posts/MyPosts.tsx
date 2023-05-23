@@ -1,38 +1,50 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {addPostAC, onChangeNewPostTextAC} from "redux/profileReducer";
+import {addPostAC} from "redux/profile/profileReducer";
 import {AppRootStateType, useAppDispatch} from "redux/store";
 import {useSelector} from "react-redux";
+import {Field, Form, Formik} from "formik";
 
 export const MyPosts = () => {
     const dispatch = useAppDispatch()
     const profile = useSelector((store: AppRootStateType) => store.profile)
 
-    const addPost = () => {
-        dispatch(addPostAC())
+    const addPost = (newPostText: string) => {
+        dispatch(addPostAC(newPostText))
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        dispatch(onChangeNewPostTextAC(e.currentTarget.value))
-    }
+
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea placeholder={"What's new?"}
-                        onChange={onChangeHandler}
-                              value={profile.newPostText}/>
-                </div>
-
-                <div>
-                    <button onClick={addPost}>Add post</button>
+                    <Formik
+                        initialValues={{
+                            newPostText: '',
+                        }}
+                        onSubmit={(values, actions) => {
+                            actions.setSubmitting(true)
+                            addPost(values.newPostText)
+                            actions.resetForm()
+                        }}
+                    >
+                        {({isSubmitting}) => (
+                            <Form className={s.newPostBlock}>
+                                <Field className={s.newPostInput} name="newPostText" placeholder="What's new?" type="newPostText"/>
+                                <button type="submit" className={s.newPostButton} disabled={isSubmitting}>
+                                    →
+                                </button>
+                            </Form>
+                        )}
+                    </Formik>
                 </div>
             </div>
             <div className={s.posts}>
                 {profile.posts.map(p => {
                     return (
                         <Post key={p.id}
+                              postId={p.id}
                               message={p.text}
                               likesCount={p.likesCount}
                               ava={profile.photos.small}/>
@@ -40,5 +52,5 @@ export const MyPosts = () => {
                 })}
             </div>
         </div>
-    );
-};
+    )
+}

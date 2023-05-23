@@ -1,4 +1,6 @@
-import axios from 'axios';
+import axios from "axios"
+import {UsersType} from "redux/users/usersReducer";
+import {AuthType} from "redux/authReducer";
 
 export const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -7,13 +9,13 @@ export const instance = axios.create({
 
 export const usersAPI = {
     getUsers(currentPage: number = 1) {
-        return instance.get(`users?page=${currentPage}`)
+        return instance.get<UsersType>(`users?page=${currentPage}`)
     },
     followUser(userId: number) {
-        return instance.post(`follow/${userId}`)
+        return instance.post<BackEndResponseType>(`follow/${userId}`)
     },
     unfollowUser(userId: number) {
-        return instance.delete(`follow/${userId}`)
+        return instance.delete<BackEndResponseType>(`follow/${userId}`)
     }
 }
 export const profileAPI = {
@@ -21,19 +23,22 @@ export const profileAPI = {
         return instance.get(`profile/${userId}`)
     },
     getStatus(userId: number) {
-        return instance.get(`profile/status/${userId}`)
+        return instance.get<string>(`profile/status/${userId}`)
     },
     updateStatus(status: string) {
-        return instance.put(`profile/status`, {status})
+        return instance.put<BackEndResponseType>(`profile/status`, {status})
     }
 
 }
 export const authAPI = {
     authMe() {
-        return instance.get(`auth/me`)
+        return instance.get<BackEndResponseType<AuthType>>(`auth/me`)
     },
-    login(data: LoginParamsType) {
-        return instance.post(`auth/login`, data)
+    logIn(data: LoginParamsType) {
+        return instance.post<BackEndResponseType<{userId: number}>>(`auth/login`, data)
+    },
+    logOut() {
+        return instance.delete<BackEndResponseType>(`auth/login`)
     }
 }
 

@@ -1,24 +1,25 @@
-import React from 'react';
+import React, {memo, useCallback} from 'react';
 import s from './Pagination.module.css'
 
-interface PaginationProps {
-    currentPage: number;
-    totalPages: number;
-    onChangePage: (page: number) => void;
-    visiblePages?: number;
+type Props = {
+    currentPage: number
+    totalPages: number
+    onChangePage: (page: number) => void
+    visiblePages?: number
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
-                                                   currentPage,
-                                                   totalPages,
-                                                   onChangePage,
-                                                   visiblePages = 5, // По умолчанию показывается 5 страниц вокруг текущей страницы
-                                               }) => {
+export const Pagination: React.FC<Props> = memo(({
+                                                               currentPage,
+                                                               totalPages,
+                                                               onChangePage,
+                                                               // По умолчанию показывается 5 страниц вокруг текущей страницы
+                                                               visiblePages = 5,
+                                                           }) => {
     const range = (start: number, end: number) => {
-        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-    };
+        return Array.from({length: end - start + 1}, (_, i) => start + i);
+    }
 
-    const getPageNumbers = () => {
+    const getPageNumbers = useCallback(() => {
         const halfVisiblePages = Math.floor(visiblePages / 2);
         const startPage = Math.max(1, currentPage - halfVisiblePages);
         const endPage = Math.min(totalPages, currentPage + halfVisiblePages);
@@ -46,18 +47,19 @@ export const Pagination: React.FC<PaginationProps> = ({
         }
 
         return pages;
-    }
-    const handleClick = (page: number) => {
+    }, [])
+
+    const handleClick = useCallback((page: number) => {
         if (page !== currentPage) {
             onChangePage(page);
         }
-    };
+    }, [])
 
     const pageNumbers = getPageNumbers();
 
     return (
         <nav>
-            <div className="pagination">
+            <div className={s.pagination}>
                 {pageNumbers.map((pageNumber, index) => (
                     <span key={index}>
                         {pageNumber !== null ? (
@@ -72,5 +74,5 @@ export const Pagination: React.FC<PaginationProps> = ({
                 ))}
             </div>
         </nav>
-    );
-}
+    )
+})

@@ -1,4 +1,3 @@
-import {MessagePropsType, MessengerPageType} from "redux/store";
 
 let initialState = {
         chats: [
@@ -15,27 +14,22 @@ let initialState = {
             {id: 4, message: 'Nice'},
             {id: 5, message: 'yo'},
         ],
-        newMessageText: '',
     }
 
 export const messengerReducer = (state: MessengerPageType = initialState, action: MessengerActionsType) => {
     switch (action.type) {
         case 'SEND-MESSAGE': {
-            let newMessage: MessagePropsType = {
+            let newMessage: MessageType = {
                 id: 6,
-                message: state.newMessageText
+                message: action.message
             }
-            if (state.newMessageText) {
+            if (action.message) {
                 state = {
                     ...state,
                     messages: [...state.messages, newMessage]
                 }
             }
-            state.newMessageText = ''
             return state
-        }
-        case 'ON-CHANGE-NEW-MESSAGE-TEXT': {
-            return state = {...state, newMessageText: action.newMessageText}
         }
         default : {
             return state
@@ -43,19 +37,27 @@ export const messengerReducer = (state: MessengerPageType = initialState, action
     }
 }
 
-type onChangeNewMessageTextACType = ReturnType<typeof onChangeNewMessageTextAC>
-export const onChangeNewMessageTextAC = (newMessageText: string) => {
-    return {
-        type: 'ON-CHANGE-NEW-MESSAGE-TEXT',
-        newMessageText
-    } as const
-}
 type sendMessageACType = ReturnType<typeof sendMessageAC>
-export const sendMessageAC = () => {
+export const sendMessageAC = (message: string) => {
     return {
-        type: 'SEND-MESSAGE'
+        type: 'SEND-MESSAGE',
+        message
     } as const
 }
 
-export type MessengerActionsType = onChangeNewMessageTextACType | sendMessageACType
+// types
+export type MessengerActionsType = sendMessageACType
 
+export type MessengerPageType = {
+    chats: UserType[]
+    messages: MessageType[]
+}
+export type UserType = {
+    id: number
+    name: string
+}
+
+export type MessageType = {
+    id: number
+    message: string
+}

@@ -12,16 +12,10 @@ const initialState = {
 
 export const usersReducer = (state: UsersDomainType = initialState, action: UsersActionsType) => {
     switch (action.type) {
-        case 'FOLLOW': {
+        case 'FOLLOW/UNFOLLOW': {
             return {
                 ...state,
-                items: state.items.map(u => u.id === action.userId ? {...u, followed: true} : u)
-            }
-        }
-        case 'UNFOLLOW': {
-            return {
-                ...state,
-                items: state.items.map(u => u.id === action.userId ? {...u, followed: false} : u)
+                items: state.items.map(u => u.id === action.userId ? {...u, followed: !action.isFollowing} : u)
             }
         }
         case 'SET-USERS': {
@@ -34,8 +28,10 @@ export const usersReducer = (state: UsersDomainType = initialState, action: User
             return {...state, isLoading: action.isLoading}
         }
         case 'SET-PROGRESS': {
-            return {...state,
-                items: state.items.map(u => u.id === action.userId ? {...u, inProgress: action.inProgress} : u)}
+            return {
+                ...state,
+                items: state.items.map(u => u.id === action.userId ? {...u, inProgress: action.inProgress} : u)
+            }
         }
         default: {
             return state
@@ -44,20 +40,14 @@ export const usersReducer = (state: UsersDomainType = initialState, action: User
 }
 
 
-type followUserACType = ReturnType<typeof followUserAC>
-export const followUserAC = (userId: number) => {
+type setIsFollowUserACType = ReturnType<typeof setIsFollowUserAC>
+export const setIsFollowUserAC = (userId: number, isFollowing: boolean) => {
     return {
-        type: 'FOLLOW',
-        userId
+        type: 'FOLLOW/UNFOLLOW',
+        userId, isFollowing
     } as const
 }
-type unfollowUserACType = ReturnType<typeof unfollowUserAC>
-export const unfollowUserAC = (userId: number) => {
-    return {
-        type: 'UNFOLLOW',
-        userId
-    } as const
-}
+
 type setUsersACType = ReturnType<typeof setUsersAC>
 export const setUsersAC = (state: UsersType) => {
     return {
@@ -89,48 +79,37 @@ export const setProgressAC = (userId: number, inProgress: boolean) => {
 }
 
 export type UsersActionsType =
-    | followUserACType
-    | unfollowUserACType
+    | setIsFollowUserACType
     | setUsersACType
     | setPageACType
     | setLoadingACType
     | setProgressACType
+
 // thunks
-export const getUsers = (currentPage: number) => (dispatch: AppThunkDispatch) => {
+export const getUsers = (currentPage: number) => async (dispatch: AppThunkDispatch) => {
     dispatch(setLoadingAC(true))
-    usersAPI.getUsers(currentPage)
-        .then(res => {
+    try {
+        const res = await usersAPI.getUsers(currentPage)
         dispatch(setUsersAC(res.data))
         dispatch(setLoadingAC(false))
-    }).catch((err)=>{
-        alert(err.data.messages[0] ? err.data.messages[0] : 'Sorry, error occurred')
-    })
+    } catch (err: any) {
+        alert(err.message ? err.message : 'Sorry, error occurred')
+    }
 }
 
-export const followUser = (userId: number)  => (dispatch: AppThunkDispatch) => {
-        dispatch(setProgressAC(userId, true))
-        usersAPI.followUser(userId).then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(followUserAC(userId))
-                dispatch(setProgressAC(userId, false))
-            }
-    }).catch((err)=>{
-        alert(err.data.messages[0] ? err.data.messages[0] : 'Sorry, error occurred')
-    })
-}
-
-export const unfollowUser = (userId: number)  => (dispatch: AppThunkDispatch) => {
+export const setIsFollowUser = (userId: number, isFollowing: boolean) => async (dispatch: AppThunkDispatch) => {
     dispatch(setProgressAC(userId, true))
-    usersAPI.unfollowUser(userId).then(res => {
+    try {
+        const res = isFollowing ? await usersAPI.unfollowUser(userId) : await usersAPI.followUser(userId)
         if (res.data.resultCode === 0) {
-            dispatch(unfollowUserAC(userId))
+            dispatch(setIsFollowUserAC(userId, isFollowing))
             dispatch(setProgressAC(userId, false))
         } else {
             alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
         }
-    }).catch((err)=>{
-        alert(err.data.messages[0] ? err.data.messages[0] : 'Sorry, error occurred')
-    })
+    } catch (err: any) {
+        alert(err.message ? err.message : 'Sorry, error occurred')
+    }
 }
 
 // types
@@ -146,12 +125,11 @@ type UserType = {
     followed: boolean
 }
 
-
-type UserDomainType = UserType & {
+export type UserDomainType = UserType & {
     inProgress: boolean
 }
 
-type UsersType = {
+export type UsersType = {
     items: UserType[]
     totalCount: number
     error: string | null

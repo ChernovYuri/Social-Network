@@ -2,3 +2,8 @@
 .selectedPage{
     font-weight: bold;
 }
+
+.pagination button {
+    cursor: pointer;
+    margin: 0 2px 0 2px;
+}

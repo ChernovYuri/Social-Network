@@ -4,3 +4,27 @@
 .posts{
     margin-top: 15px;
 }
+
+.newPostBlock{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    width: max-content;
+}
+
+.newPostButton{
+    border: none;
+    background-color: #ffffff;
+    margin-left: 2px;
+    font-weight: bold;
+    height: 100%;
+}
+
+.newPostInput{
+    min-width: 80%;
+    max-width: 80%;
+    min-height: 4vh;
+    max-height: 4vh;
+    border: none;
+}

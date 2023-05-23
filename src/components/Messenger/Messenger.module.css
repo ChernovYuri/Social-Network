@@ -1,6 +1,10 @@
 .messenger {
-    display: grid;
-    grid-template-columns: 2fr 10fr;
+    /*display: grid;*/
+    /*grid-template-columns: 2fr 10fr;*/
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
 }
 
 .chats {
@@ -13,7 +17,7 @@
 }
 
 .chat .active {
-    color: greenyellow;
+    color: green;
     text-decoration: none;
     font-size: 1.2em;
 }

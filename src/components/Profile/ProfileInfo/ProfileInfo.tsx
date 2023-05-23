@@ -4,9 +4,9 @@ import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "redux/store";
 import avatar from "../../.././assets/avatars/avatar.svg"
 import {EditableStatus} from "common/components/EditableStatus";
-import {updateStatus} from "redux/profileReducer";
+import {updateStatus} from "redux/profile/profileReducer";
 
-export const ProfileInfo = memo(() => {
+export const ProfileInfo = () => {
     const dispatch = useAppDispatch()
     const profile = useSelector((store: AppRootStateType) => store.profile)
     const auth = useSelector((store: AppRootStateType) => store.auth)
@@ -32,13 +32,14 @@ export const ProfileInfo = memo(() => {
                     </span>
                 </div>
             </div>
-            {profile.userId === auth.id
-                ? profile.status
-                    ? <EditableStatus oldTitle={profile.status} callBack={updateStatusHandler}/>
-                    : <EditableStatus oldTitle={'You have no status'} callBack={updateStatusHandler}/>
-                : profile.status
-            }
-
+            <div className={s.userStatus}>
+                {profile.userId === auth.id
+                    ? profile.status
+                        ? <EditableStatus oldTitle={profile.status} callBack={updateStatusHandler}/>
+                        : <EditableStatus oldTitle={'You have no status'} callBack={updateStatusHandler}/>
+                    : profile.status
+                }
+            </div>
         </div>
     )
-})
+}

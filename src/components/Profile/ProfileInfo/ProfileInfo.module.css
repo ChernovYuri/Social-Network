@@ -27,7 +27,6 @@
 }
 
 .avaImg {
-
     width: 80px;
     height: 80px;
     border-radius: 5%;
@@ -40,4 +39,9 @@
 .userAboutMe {
     margin-left: 10px;
     font-size: 24px;
+}
+
+.userStatus{
+    margin-left: 10px;
+    font-size: 20px;
 }

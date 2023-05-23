@@ -11,7 +11,7 @@ export const Navbar: React.FC = () => {
 
 
     return (
-        <nav className={s.nav}>
+        <div className={s.nav}>
             <div className={s.item}>
                 <NavLink to={isAuth ? `/profile/${userId}` : '/login'} className={classNameHandler}>Profile</NavLink>
             </div>
@@ -21,6 +21,6 @@ export const Navbar: React.FC = () => {
             <div className={s.item}>
                 <NavLink to='/users' className={classNameHandler}>Users</NavLink>
             </div>
-        </nav>
+        </div>
     );
 };

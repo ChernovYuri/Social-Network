@@ -35,20 +35,25 @@ export const profileReducer = (state: ProfileDomainType = initialState, action: 
         case 'ADD-POST': {
             let newPost: PostType = {
                 id: 5,
-                text: state.newPostText,
+                text: action.newPostText,
                 likesCount: 0
             }
-            if (state.newPostText) {
+            if (action.newPostText) {
                 state = {
                     ...state,
                     posts: [newPost, ...state.posts]
                 }
             }
-            state.newPostText = ''
             return state
         }
-        case 'ON-CHANGE-NEW-POST-TEXT': {
-            return {...state, newPostText: action.newPostText}
+        case 'LIKE-POST': {
+            return {
+                ...state,
+                posts: state.posts.map(post => post.id === action.postId ? {
+                    ...post,
+                    likesCount: post.likesCount + (action.isLiked ? -1 : +1)
+                } : post)
+            }
         }
         case 'SET-PROFILE': {
             return {...state, ...action.profile}
@@ -66,56 +71,56 @@ export const profileReducer = (state: ProfileDomainType = initialState, action: 
 }
 
 // thunks
-
-export const getUserProfile = (userId: number) => (dispatch: AppThunkDispatch) => {
+export const getUserProfile = (userId: number) => async (dispatch: AppThunkDispatch) => {
     dispatch(setLoadingAC(true))
-    profileAPI.getProfile(userId ? Number(userId) : 2).then(res => {
+    try {
+        const res = await profileAPI.getProfile(userId ? Number(userId) : 2)
         dispatch(setProfileAC(res.data))
-    }).then(() => {
         dispatch(setLoadingAC(false))
-    }).catch((err) => {
-        alert(err.data.messages[0] ? err.data.messages[0] : 'Sorry, error occurred')
-    })
+    } catch (err: any) {
+        alert(err.message ? err.message : 'Sorry, error occurred')
+    }
 }
 
-export const getStatus = (userId: number) => (dispatch: AppThunkDispatch) => {
+export const getStatus = (userId: number) => async (dispatch: AppThunkDispatch) => {
     dispatch(setLoadingAC(true))
-    profileAPI.getStatus(userId ? userId : 0)
-        .then(res => {
-            console.log(res)
-            dispatch(setStatusAC(res.data))
-            dispatch(setLoadingAC(false))
-        }).catch((err) => {
-        alert(err.data.messages[0] ? err.data.messages[0] : 'Sorry, error occurred')
+    try {
+        const res = await profileAPI.getStatus(userId ? userId : 0)
+        dispatch(setStatusAC(res.data))
         dispatch(setLoadingAC(false))
-    })
+    } catch (err: any) {
+        alert(err.message ? err.message : 'Sorry, error occurred')
+        dispatch(setLoadingAC(false))
+    }
 }
 
-export const updateStatus = (status: string) => (dispatch: AppThunkDispatch) => {
-    profileAPI.updateStatus(status).then(res => {
-        if (res.data.resultCode === 0) {
-            console.log(res)
-            dispatch(setStatusAC(status))
-            console.log(res.data)
-        }
-    }).catch((err) => {
-        alert(err.data.messages[0] ? err.data.messages[0] : 'Sorry, error occurred')
-    })
+export const updateStatus = (status: string) => async (dispatch: AppThunkDispatch) => {
+   try {
+       const res = await profileAPI.updateStatus(status)
+           if (res.data.resultCode === 0) {
+               dispatch(setStatusAC(status))
+           } else {
+               alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
+           }
+       } catch (err: any) {
+        alert(err.message ? err.message : 'Sorry, error occurred')
+    }
 }
 
-
-type onChangeNewPostTextACType = ReturnType<typeof onChangeNewPostTextAC>
-export const onChangeNewPostTextAC = (newPostText: string) => {
+// types
+type onLikePostACType = ReturnType<typeof onLikePostAC>
+export const onLikePostAC = (postId: number, isLiked: boolean) => {
     return {
-        type: 'ON-CHANGE-NEW-POST-TEXT',
-        newPostText
+        type: 'LIKE-POST',
+        postId, isLiked
     } as const
 }
 
 type addPostACType = ReturnType<typeof addPostAC>
-export const addPostAC = () => {
+export const addPostAC = (newPostText: string) => {
     return {
         type: 'ADD-POST',
+        newPostText
     } as const
 }
 
@@ -144,7 +149,7 @@ export const setLoadingAC = (isLoading: boolean) => {
 }
 
 export type ProfileActionsType =
-    | onChangeNewPostTextACType
+    | onLikePostACType
     | addPostACType
     | setProfileACType
     | setLoadingACType
@@ -163,7 +168,7 @@ export type PostType = {
     likesCount: number
 }
 
-type ContactsType = {
+export type ContactsType = {
     github: string
     vk: string
     facebook: string
@@ -174,7 +179,7 @@ type ContactsType = {
     mainLink: string
 }
 
-type ProfileType = {
+export type ProfileType = {
     userId: number
     aboutMe: string
     lookingForAJob: boolean
