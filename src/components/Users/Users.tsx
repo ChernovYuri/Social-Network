@@ -49,7 +49,6 @@ export const Users = () => {
                                     <button disabled={u.inProgress} onClick={() => {isAuth ? setIsFollowHandler(u.id, u.followed) : navigate('/login')}}>
                                         {u.followed ? 'UNFOLLOW' : 'FOLLOW'}
                                     </button>
-
                             </div>
                             <div className={s.description}>
                                 <div className={s.userName} onClick={() => {

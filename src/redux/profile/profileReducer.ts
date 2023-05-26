@@ -1,5 +1,5 @@
 import {AppThunkDispatch} from "redux/store";
-import {profileAPI} from "api/api";
+import {profileAPI, UpdatedProfileType} from "api/api";
 
 const initialState = {
     userId: 2,
@@ -16,12 +16,12 @@ const initialState = {
     newPostText: '',
     posts: [
         {
-            id: 1,
+            id: 2,
             text: 'Теория — это когда все известно, но ничего не работает. Практика — это когда все работает, но никто не знает почему. Мы же объединяем теорию и практику: ничего не работает... и никто не знает почему!',
             likesCount: 10
         },
         {
-            id: 2,
+            id: 1,
             text: 'Все мы гении. Но если вы будете судить рыбу по её способности взбираться на дерево, она проживёт всю жизнь, считая себя дурой.',
             likesCount: 5
         }
@@ -61,6 +61,20 @@ export const profileReducer = (state: ProfileDomainType = initialState, action: 
         case 'SET-STATUS': {
             return {...state, status: action.status}
         }
+        case 'SET-PHOTOS': {
+
+            const {large,small} = action.photos
+            debugger
+            return {
+                ...state, photos: {
+                    small: small,
+                    large: large,
+                }
+            }
+        }
+        case 'SET-UPDATED-PROFILE': {
+            return {...state, state: action.updatedProfile}
+        }
         case 'SET-LOADING': {
             return {...state, isLoading: action.isLoading}
         }
@@ -95,14 +109,40 @@ export const getStatus = (userId: number) => async (dispatch: AppThunkDispatch) 
 }
 
 export const updateStatus = (status: string) => async (dispatch: AppThunkDispatch) => {
-   try {
-       const res = await profileAPI.updateStatus(status)
-           if (res.data.resultCode === 0) {
-               dispatch(setStatusAC(status))
-           } else {
-               alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
-           }
-       } catch (err: any) {
+    try {
+        const res = await profileAPI.updateStatus(status)
+        if (res.data.resultCode === 0) {
+            dispatch(setStatusAC(status))
+        } else {
+            alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
+        }
+    } catch (err: any) {
+        alert(err.message ? err.message : 'Sorry, error occurred')
+    }
+}
+export const updateAvatar = (newAvatar: File) => async (dispatch: AppThunkDispatch) => {
+    try {
+        const res = await profileAPI.updateAvatar(newAvatar)
+        if (res.data.resultCode === 0) {
+
+            dispatch(setPhotosAC(res.data.data.photos))
+        } else {
+            alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
+        }
+    } catch (err: any) {
+        alert(err.message ? err.message : 'Sorry, error occurred')
+    }
+}
+export const updateProfile = (updatedProfile: UpdatedProfileType) => async (dispatch: AppThunkDispatch) => {
+    debugger
+    try {
+        const res = await profileAPI.updateProfile(updatedProfile)
+        if (res.data.resultCode === 0) {
+            dispatch(setUpdatedProfileAC(updatedProfile))
+        } else {
+            alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
+        }
+    } catch (err: any) {
         alert(err.message ? err.message : 'Sorry, error occurred')
     }
 }
@@ -140,6 +180,22 @@ export const setStatusAC = (status: string) => {
     } as const
 }
 
+type setPhotosACType = ReturnType<typeof setPhotosAC>
+export const setPhotosAC = (photos: { small: string | null, large: string | null }) => {
+    return {
+        type: 'SET-PHOTOS',
+        photos: { ...photos }
+    } as const
+}
+
+type setUpdatedProfileACType = ReturnType<typeof setUpdatedProfileAC>
+export const setUpdatedProfileAC = (updatedProfile: UpdatedProfileType) => {
+    return {
+        type: 'SET-UPDATED-PROFILE',
+        updatedProfile
+    } as const
+}
+
 type setLoadingACType = ReturnType<typeof setLoadingAC>
 export const setLoadingAC = (isLoading: boolean) => {
     return {
@@ -148,12 +204,15 @@ export const setLoadingAC = (isLoading: boolean) => {
     } as const
 }
 
+
 export type ProfileActionsType =
     | onLikePostACType
     | addPostACType
     | setProfileACType
     | setLoadingACType
     | setStatusACType
+    | setPhotosACType
+    | setUpdatedProfileACType
 
 export type ProfileDomainType = ProfileType & {
     profileWallpaper: string
@@ -169,14 +228,7 @@ export type PostType = {
 }
 
 export type ContactsType = {
-    github: string
-    vk: string
-    facebook: string
-    instagram: string
-    twitter: string
-    website: string
-    youtube: string
-    mainLink: string
+    [key: string]: string
 }
 
 export type ProfileType = {

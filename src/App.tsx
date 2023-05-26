@@ -13,7 +13,7 @@ import {PreLoader} from "components/PreLoader/PreLoader";
 import {authMe} from "redux/authReducer";
 import {CircularProgress} from "@mui/material";
 import {Simulate} from "react-dom/test-utils";
-import progress = Simulate.progress;
+
 
 export const App = () => {
     const {isInitialized, isAppLoading} = useSelector((state: AppRootStateType) => state.app)

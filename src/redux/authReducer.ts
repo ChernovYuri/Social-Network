@@ -27,7 +27,6 @@ export const authReducer = (state: AuthDomainType = initialState, action: AuthAc
 
 // thunks
 export const authMe = () => async (dispatch: AppThunkDispatch) => {
-    debugger
     try {
         dispatch(setAppLoadingAC(true))
         const res = await authAPI.authMe()
@@ -47,7 +46,6 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
 
 export const logIn = (data: LoginParamsType) => async (dispatch: AppThunkDispatch, {setErrors}: FormikHelpers<LoginParamsType>) => {
     try {
-
         const res = await authAPI.logIn(data)
         if (res.data.resultCode === 0) {
             dispatch(setIsAuthAC(true))
@@ -63,11 +61,13 @@ export const logIn = (data: LoginParamsType) => async (dispatch: AppThunkDispatc
 }
 
 export const logOut = () => async (dispatch: AppThunkDispatch) => {
+    dispatch(setAppLoadingAC(true))
     try {
         const res = await authAPI.logOut()
             if (res.data.resultCode === 0) {
                 dispatch(setAuthDataAC(initialState))
                 dispatch(setIsAuthAC(false))
+                dispatch(setAppLoadingAC(false))
             } else {
                 alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
             }
