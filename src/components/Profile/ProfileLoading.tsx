@@ -2,7 +2,7 @@ import React from 'react';
 import {Skeleton} from "@mui/material";
 import s from "components/Profile/ProfileLoading.module.css";
 
-export const ProfileLoading = () => {
+export const ProfileLoading: React.FC = () => {
     return (
         <div>
             <div className={s.wallpaperLoading}>

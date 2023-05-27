@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {Field, Form, Formik, FormikErrors, FormikHelpers} from "formik";
 import {ChatItem} from "components/Messenger/ChatItem/ChatItem";
 
-export const Messenger = () => {
+export const Messenger: React.FC = () => {
     const messengerPage = useSelector((state: AppRootStateType) => state.messenger)
     const isAuth = useSelector((state: AppRootStateType) => state.auth.isAuth)
     const navigate = useNavigate()

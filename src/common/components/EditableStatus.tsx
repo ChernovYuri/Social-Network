@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, memo, useState} from 'react';
+import React, {ChangeEvent, memo, useState} from 'react';
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "redux/store";
 
@@ -7,10 +7,10 @@ type Props = {
     callBack: (newTitle: string) => void
 }
 
-export const EditableStatus: FC<Props> = memo(({oldTitle, callBack}) => {
+export const EditableStatus: React.FC<Props> = memo(({oldTitle, callBack}) => {
     const [edit, setEdit] = useState<boolean>(false)
     const [newTitle, setNewTitle] = useState<string>('')
-    const profile = useSelector((state: AppRootStateType)=>state.profile)
+    const profile = useSelector((state: AppRootStateType) => state.profile)
 
     const focusHandler = () => {
         setEdit(!edit);
@@ -29,9 +29,9 @@ export const EditableStatus: FC<Props> = memo(({oldTitle, callBack}) => {
         callBack(newTitle)
     }
     const onChangeLocalTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-         if(e.currentTarget.value.length > 300) {
-             return alert('Max length (300)')
-         }
+        if (e.currentTarget.value.length > 300) {
+            return alert('Max length (300)')
+        }
         setNewTitle(e.currentTarget.value)
     }
 

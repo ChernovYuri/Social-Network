@@ -12,7 +12,6 @@ import {useSelector} from "react-redux";
 import {PreLoader} from "components/PreLoader/PreLoader";
 import {authMe} from "redux/authReducer";
 import {CircularProgress} from "@mui/material";
-import {Simulate} from "react-dom/test-utils";
 
 
 export const App = () => {

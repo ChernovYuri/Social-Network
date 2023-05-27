@@ -1,3 +1,12 @@
 .loginForm{
     margin: 5px 0 20px 0;
 }
+
+.formInfo{
+    color: #181818;
+}
+
+.errorMessage{
+    color: darkred;
+}
+

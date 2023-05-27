@@ -1,4 +1,7 @@
 .nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: green;
     padding: 20px;
 }
@@ -15,3 +18,8 @@
 .item a.active {
     color: #d4ffb1;
 }
+
+.author {
+    color: white;
+}
+

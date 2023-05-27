@@ -14,8 +14,7 @@ const validationSchema = yup.object().shape({
     password: yup.string().trim().required('Required').min(4, 'Password must has more then 4 symbols')
 })
 
-
-export const Login = () => {
+export const Login: React.FC = () => {
     const auth = useSelector((state: AppRootStateType) => state.auth)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -50,14 +49,8 @@ export const Login = () => {
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit} className={s.loginForm}>
                 <FormControl>
-                    <FormLabel>
-                        {/*<p>To log in get registered
-                            <a href={'https://social-network.samuraijs.com/'}
-                               target={'_blank'}> here
-                            </a>
-                        </p>*/}
+                    <FormLabel className={s.formInfo}>
                         <p>Для авторизации введите следующие данные</p>
-                        {/*<p>or use common test account credentials:</p>*/}
                         <p>демонастрационного аккаунта:</p>
                         <p>Email: <span onClick={() => {
                             handleFillForm()
@@ -77,6 +70,10 @@ export const Login = () => {
                                                textDecoration: 'underline',
                                                color: 'darkblue'
                                            }}>free</span></p>
+                        <p>Также можно сделать свой аккаунт, зарегестрировавшись здесь:</p>
+                        <a href={'https://social-network.samuraijs.com/'}
+                           target={'_blank'}> social-network.samuraijs.com
+                        </a>
                     </FormLabel>
                     <FormGroup>
                         <TextField type='text'
@@ -85,7 +82,7 @@ export const Login = () => {
                                    {...formik.getFieldProps('email')}
                         />
                         {formik.touched.email && formik.errors.email &&
-                            <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                            <div className={s.errorMessage}>{formik.errors.email}</div>}
 
                         <TextField type="password"
                                    label="Password"
@@ -93,7 +90,7 @@ export const Login = () => {
                                    {...formik.getFieldProps('password')}
                         />
                         {formik.touched.password && formik.errors.password &&
-                            <div style={{color: 'red'}}>{formik.errors.password}</div>}
+                            <div className={s.errorMessage}>{formik.errors.password}</div>}
                         <FormControlLabel label={'Remember me'}
                                           control={
                                               <Checkbox checked={formik.values.rememberMe}

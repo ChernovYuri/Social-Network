@@ -9,9 +9,9 @@ type Props = {
 export const UserContacts: FC<Props> = memo(({contacts}) => {
     return (
         <div className={s.contacts}>
-            Contacts: {Object.keys(contacts).map(key => {
+            Contacts: {Object.keys(contacts).map((key, index) => {
             if (contacts[key]) {
-                return <div><b>{key}</b>:
+                return <div key={index}><b>{key}</b>:
                     <a href={contacts[key].startsWith("http") ? contacts[key] : `https://${contacts[key]}`}
                        target="_blank" rel="noopener noreferrer">
                         {contacts[key]}

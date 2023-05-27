@@ -8,7 +8,7 @@ import {getStatus, getUserProfile} from "redux/profile/profileReducer";
 import {ProfileLoading} from "components/Profile/ProfileLoading";
 import s from './Profile.module.css'
 
-export const Profile = () => {
+export const Profile: React.FC = () => {
 
     const dispatch = useAppDispatch()
     const {userId} = useParams();

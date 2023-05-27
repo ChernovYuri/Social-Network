@@ -6,7 +6,7 @@ import {AppRootStateType, useAppDispatch} from "redux/store";
 import {useSelector} from "react-redux";
 import {Field, Form, Formik} from "formik";
 
-export const MyPosts = () => {
+export const MyPosts: React.FC = () => {
     const dispatch = useAppDispatch()
     const profile = useSelector((store: AppRootStateType) => store.profile)
 
@@ -31,7 +31,8 @@ export const MyPosts = () => {
                     >
                         {({isSubmitting}) => (
                             <Form className={s.newPostBlock}>
-                                <Field className={s.newPostInput} name="newPostText" placeholder="What's new?" type="newPostText"/>
+                                <Field className={s.newPostInput} name="newPostText" placeholder="What's new?"
+                                       type="newPostText"/>
                                 <button type="submit" className={s.newPostButton} disabled={isSubmitting}>
                                     →
                                 </button>
@@ -47,7 +48,7 @@ export const MyPosts = () => {
                               postId={p.id}
                               message={p.text}
                               likesCount={p.likesCount}
-                              ava={profile.photos.small}/>
+                              userAvatar={profile.photos.small}/>
                     )
                 })}
             </div>

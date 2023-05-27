@@ -17,7 +17,7 @@ export const Header: React.FC = () => {
         if (!auth.isAuth) {
             navigate('/login')
         } else {
-            logOut()(dispatch).then(()=>navigate('/login'))
+            logOut()(dispatch).then(() => navigate('/login'))
         }
     }
 
@@ -29,11 +29,12 @@ export const Header: React.FC = () => {
             <span>SOCIAL WEB</span>
             <div className={s.loginBlock}
                  onClick={loginHandler}
-                 title={auth.isAuth? "Log out" : "Log in"}>
+                 title={auth.isAuth ? "Log out" : "Log in"}>
                 <span className={s.log}>
                     {auth.isAuth ? auth.login : 'Log in'}
                 </span>
-                <img className={s.logIcon} src={auth.isAuth ? logoutIcon : loginIcon}/>
+                <img className={s.logIcon} alt={auth.isAuth ? 'Log out' : 'Log in'}
+                     src={auth.isAuth ? logoutIcon : loginIcon}/>
             </div>
         </header>
     )

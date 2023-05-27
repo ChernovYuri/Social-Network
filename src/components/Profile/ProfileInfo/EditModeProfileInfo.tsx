@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import s from "./ProfileInfo.module.css";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "redux/store";
-import avatar from "../../.././assets/avatars/avatar.svg"
+import avatar from "assets/avatars/defaultAvatar.svg"
 import {updateProfile} from "redux/profile/profileReducer";
 import {Checkbox} from "@mui/material";
 import {UpdatedProfileType} from "api/api";
@@ -19,14 +19,7 @@ export const EditModeProfileInfo = () => {
     const [fullName, setFullName] = useState<string>(profile.fullName)
     const [aboutMe, setAboutMe] = useState<string>(profile.aboutMe)
     const [contactValues, setContactValues] = useState(profile.contacts);
-    // const [github, setGithub] = useState<string>(profile.contacts.github)
-    // const [vk, setVk] = useState<string>(profile.contacts.vk)
-    // const [facebook, setFacebook] = useState<string>(profile.contacts.facebook)
-    // const [instagram, setInstagram] = useState<string>(profile.contacts.instagram)
-    // const [twitter, setTwitter] = useState<string>(profile.contacts.twitter)
-    // const [website, setWebsite] = useState<string>(profile.contacts.website)
-    // const [youtube, setYoutube] = useState<string>(profile.contacts.youtube)
-    // const [mainLink, setMainLink] = useState<string>(profile.contacts.mainLink)
+
 
     const setContactHandler = (e: ChangeEvent<HTMLInputElement>, contact: string) => {
         setContactValues(prevState => ({
@@ -44,37 +37,6 @@ export const EditModeProfileInfo = () => {
         contacts: {...contactValues}
     }
 
-    // const setContactHandler = (e: ChangeEvent<HTMLInputElement>, contact: string) => {
-    //     switch (contact) {
-    //         case 'github':
-    //             setGithub(e.currentTarget.value);
-    //             break;
-    //         case 'vk':
-    //             setVk(e.currentTarget.value);
-    //             break;
-    //         case 'facebook':
-    //             setFacebook(e.currentTarget.value);
-    //             break;
-    //         case 'instagram':
-    //             setInstagram(e.currentTarget.value);
-    //             break;
-    //         case 'twitter':
-    //             setTwitter(e.currentTarget.value);
-    //             break;
-    //         case 'website':
-    //             setWebsite(e.currentTarget.value);
-    //             break;
-    //         case 'youtube':
-    //             setYoutube(e.currentTarget.value);
-    //             break;
-    //         case 'mainLink':
-    //             setMainLink(e.currentTarget.value);
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
-
     const updateProfileHandler = () => {
         updateProfile(updatedProfile)(dispatch)
             .then(() => navigate('/profile'))
@@ -83,7 +45,7 @@ export const EditModeProfileInfo = () => {
     return (
         <div>
             <img className={s.profileWallpaper} src={profile.profileWallpaper} alt={"Profile's wallpaper"}/>
-            <button onClick={() => updateProfileHandler()}>SAVE</button>
+            <button className={s.editModeButton} onClick={() => updateProfileHandler()}>SAVE</button>
             <div className={s.descriptionBlock}>
                 <img className={s.avaImg} src={profile.photos.small ? profile.photos.small : avatar}
                      alt={"Profile's avatar"}/>
