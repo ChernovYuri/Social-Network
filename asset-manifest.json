@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/Social-Network/static/css/main.f6836a91.css",
-    "main.js": "/Social-Network/static/js/main.205f15bb.js",
+    "main.css": "/Social-Network/static/css/main.d6be3f1d.css",
+    "main.js": "/Social-Network/static/js/main.6a7d610d.js",
     "static/media/SWLogo.png": "/Social-Network/static/media/SWLogo.9feb66fca666d68dd1c8.png",
     "static/media/logoutIcon.png": "/Social-Network/static/media/logoutIcon.5988d0ca729f49785a33.png",
     "static/media/loginIcon.png": "/Social-Network/static/media/loginIcon.97f4e8e5cfb1881158aa.png",
-    "static/media/avatar.svg": "/Social-Network/static/media/avatar.8281e2617447743e5756c9ffb0e8da2d.svg",
+    "static/media/defaultAvatar.svg": "/Social-Network/static/media/defaultAvatar.8281e2617447743e5756c9ffb0e8da2d.svg",
     "index.html": "/Social-Network/index.html",
-    "main.f6836a91.css.map": "/Social-Network/static/css/main.f6836a91.css.map",
-    "main.205f15bb.js.map": "/Social-Network/static/js/main.205f15bb.js.map"
+    "main.d6be3f1d.css.map": "/Social-Network/static/css/main.d6be3f1d.css.map",
+    "main.6a7d610d.js.map": "/Social-Network/static/js/main.6a7d610d.js.map"
   },
   "entrypoints": [
-    "static/css/main.f6836a91.css",
-    "static/js/main.205f15bb.js"
+    "static/css/main.d6be3f1d.css",
+    "static/js/main.6a7d610d.js"
   ]
 }
