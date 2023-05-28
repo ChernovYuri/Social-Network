@@ -49,7 +49,7 @@ export const ProfileInfo: React.FC = () => {
                     </span>
                         <span className={s.userJobInfo}>
                         <span
-                            className={s.userName}>{profile.lookingForAJob ? 'Looking for job' : "Don't looking for job"}</span>
+                            className={s.lookingForJob}>{profile.lookingForAJob ? 'Looking for job' : "Don't looking for job"}</span>
                         <span className={s.userAboutMe}>{profile.lookingForAJobDescription}</span>
                     </span>
                     </div>

@@ -54,9 +54,6 @@
     border-radius: 4px;
 }
 
-input[type='file'] {
-    color: rgba(0, 0, 0, 0)
-}
 .avaImg {
     width: 80px;
     height: 80px;
@@ -67,6 +64,14 @@ input[type='file'] {
     margin-left: 10px;
     font-size: 40px;
 }
+
+.lookingForJob{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 40px;
+}
+
 .userAboutMe {
     margin-left: 10px;
     font-size: 24px;

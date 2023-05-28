@@ -1,5 +1,6 @@
 import {AppThunkDispatch} from "redux/store";
 import {profileAPI, UpdatedProfileType} from "api/api";
+import {useNavigate} from "react-router-dom";
 
 const initialState = {
     userId: 2,
@@ -7,7 +8,16 @@ const initialState = {
     lookingForAJob: false,
     lookingForAJobDescription: '',
     fullName: '',
-    contacts: {} as ContactsType,
+    contacts: {
+        github: '',
+        vk: '',
+        facebook: '',
+        instagram: '',
+        twitter: '',
+        website: '',
+        youtube: '',
+        mainLink: '',
+    },
     photos: {
         small: null,
         large: null
@@ -140,8 +150,9 @@ export const updateProfile = (updatedProfile: UpdatedProfileType) => async (disp
         if (res.data.resultCode === 0) {
             dispatch(setUpdatedProfileAC(updatedProfile))
         } else {
-            alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
+            alert(res.data.messages ? res.data.messages.map(message=>message) : 'Sorry, error occurred')
         }
+        return res
     } catch (err: any) {
         alert(err.message ? err.message : 'Sorry, error occurred')
     }
