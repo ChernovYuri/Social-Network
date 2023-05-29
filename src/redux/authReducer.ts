@@ -1,14 +1,14 @@
 import {AppThunkDispatch} from "redux/store";
-import {authAPI, LoginParamsType} from "api/api";
+import {authAPI, LoginParamsType, securityAPI} from "api/api";
 import {FormikHelpers} from "formik";
 import {setAppLoadingAC, setInitializedAC} from "redux/appReducer";
-
 
 const initialState = {
     id: 0,
     email: '',
     login: '',
-    isAuth: false
+    isAuth: false,
+    captchaUrl: ''
 }
 
 export const authReducer = (state: AuthDomainType = initialState, action: AuthActionsType) => {
@@ -18,6 +18,9 @@ export const authReducer = (state: AuthDomainType = initialState, action: AuthAc
         }
         case 'SET-IS-AUTH': {
             return {...state, isAuth: action.isAuth}
+        }
+        case 'SET-CAPTCHA': {
+            return {...state, captchaUrl: action.captchaUrl}
         }
         default: {
             return state
@@ -45,11 +48,14 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
 }
 
 export const logIn = (data: LoginParamsType) => async (dispatch: AppThunkDispatch, {setErrors}: FormikHelpers<LoginParamsType>) => {
+    debugger
     try {
         const res = await authAPI.logIn(data)
         if (res.data.resultCode === 0) {
             dispatch(setIsAuthAC(true))
             await authMe()(dispatch)
+        } else if (res.data.resultCode === 10) {
+            getCaptcha()(dispatch)
         } else {
             const errorMessage = res.data.messages[0] ? res.data.messages[0] : 'Sorry, an error occurred';
             setErrors({password: errorMessage}); // Установка ошибки в поле password
@@ -60,17 +66,24 @@ export const logIn = (data: LoginParamsType) => async (dispatch: AppThunkDispatc
     }
 }
 
+
+export const getCaptcha = () => async (dispatch:AppThunkDispatch) => {
+    debugger
+    const captchaUrl = await securityAPI.getCaptcha()
+    dispatch(setCaptchaUrlAC(captchaUrl.data.url))
+}
+
 export const logOut = () => async (dispatch: AppThunkDispatch) => {
     dispatch(setAppLoadingAC(true))
     try {
         const res = await authAPI.logOut()
-            if (res.data.resultCode === 0) {
-                dispatch(setAuthDataAC(initialState))
-                dispatch(setIsAuthAC(false))
-                dispatch(setAppLoadingAC(false))
-            } else {
-                alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
-            }
+        if (res.data.resultCode === 0) {
+            dispatch(setAuthDataAC(initialState))
+            dispatch(setIsAuthAC(false))
+            dispatch(setAppLoadingAC(false))
+        } else {
+            alert(res.data.messages[0] ? res.data.messages[0] : 'Sorry, error occurred')
+        }
     } catch (err: any) {
         alert(err.message ? err.message : 'Sorry, error occurred')
     }
@@ -85,6 +98,13 @@ export const setAuthDataAC = (data: AuthType) => {
         data
     } as const
 }
+type setCaptchaUrlACType = ReturnType<typeof setCaptchaUrlAC>
+export const setCaptchaUrlAC = (captchaUrl: string) => {
+    return {
+        type: 'SET-CAPTCHA',
+        captchaUrl
+    } as const
+}
 type setIsAuthACType = ReturnType<typeof setIsAuthAC>
 export const setIsAuthAC = (isAuth: boolean) => {
     return {
@@ -95,6 +115,7 @@ export const setIsAuthAC = (isAuth: boolean) => {
 export type AuthActionsType =
     | setAuthDataACType
     | setIsAuthACType
+    | setCaptchaUrlACType
 
 export type AuthType = {
     id: number
@@ -104,4 +125,5 @@ export type AuthType = {
 
 type AuthDomainType = AuthType & {
     isAuth: boolean
+    captchaUrl: string
 }

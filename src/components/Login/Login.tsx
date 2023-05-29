@@ -3,7 +3,7 @@ import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, G
 import * as yup from 'yup';
 import {AppRootStateType, useAppDispatch} from "redux/store";
 import {LoginParamsType} from "api/api";
-import {logIn} from "redux/authReducer";
+import {getCaptcha, logIn} from "redux/authReducer";
 import {useSelector} from "react-redux";
 import React, {useEffect} from "react";
 import {Navigate, useNavigate} from "react-router-dom";
@@ -30,7 +30,8 @@ export const Login: React.FC = () => {
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
+            captcha: ''
         },
         onSubmit: (values, formikHelpers: FormikHelpers<LoginParamsType>) => {
             logIn(values)(dispatch, formikHelpers)
@@ -49,6 +50,20 @@ export const Login: React.FC = () => {
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit} className={s.loginForm}>
                 <FormControl>
+                    {auth.captchaUrl &&
+                        <div className={s.captchaBlock}>
+                            <img src={auth.captchaUrl} alt={'Captcha'}/>
+                            <TextField type='text'
+                                       label="Captcha symbols"
+                                       margin="normal"
+                                       {...formik.getFieldProps('captcha')}
+                            />
+                            <button className={s.captchaButton}
+                                    onClick={()=>logIn({email: '', password: '', rememberMe: false})}>
+                                Refresh captcha
+                            </button>
+                        </div>
+                    }
                     <FormLabel className={s.formInfo}>
                         <p>Для авторизации введите следующие данные</p>
                         <p>демонастрационного аккаунта:</p>
@@ -70,7 +85,7 @@ export const Login: React.FC = () => {
                                                textDecoration: 'underline',
                                                color: 'darkblue'
                                            }}>free</span></p>
-                        <p>Также можно сделать свой аккаунт, зарегестрировавшись здесь:</p>
+                        <p>Также можно создать свой аккаунт, зарегистрировавшись здесь:</p>
                         <a href={'https://social-network.samuraijs.com/'}
                            target={'_blank'}> social-network.samuraijs.com
                         </a>

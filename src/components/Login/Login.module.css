@@ -5,6 +5,18 @@
 .formInfo{
     color: #181818;
 }
+.captchaBlock{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.captchaButton {
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
 
 .errorMessage{
     color: darkred;

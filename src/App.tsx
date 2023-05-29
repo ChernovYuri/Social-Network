@@ -59,6 +59,8 @@ export const App = () => {
                                    element={<PreLoader/>}/>
                             <Route path="/"
                                    element={<Navigate to={'/login'}/>}/>
+                            <Route path="*"
+                                   element={<h2>PAGE NOT FOUND</h2>}/>
                         </Routes>
                         }
                     </div>

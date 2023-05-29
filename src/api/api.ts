@@ -8,6 +8,12 @@ export const instance = axios.create({
     withCredentials: true
 })
 
+export const securityAPI = {
+    getCaptcha() {
+        return instance.get<{ url: string }>(`/security/get-captcha-url`)
+    }
+}
+
 export const usersAPI = {
     getUsers(currentPage: number = 1) {
         return instance.get<UsersType>(`users?page=${currentPage}`)

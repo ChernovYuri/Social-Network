@@ -1,6 +1,5 @@
 import {AppThunkDispatch} from "redux/store";
 import {profileAPI, UpdatedProfileType} from "api/api";
-import {useNavigate} from "react-router-dom";
 
 const initialState = {
     userId: 2,

@@ -14,7 +14,9 @@ export const ProfileInfo: React.FC = () => {
     const profile = useSelector((store: AppRootStateType) => store.profile)
     const auth = useSelector((store: AppRootStateType) => store.auth)
     const isOwner = (profile.userId === auth.id)
-    const isContactsEmpty = Object.values(profile.contacts).every(value => value ? !value.trim() : '');
+    const isContactsEmpty = Object.values(profile.contacts).every((value) => {
+        return value === null || value.trim() === '';
+    });
 
     const [isEditMode, setEditMode] = useState<boolean>(false)
 
